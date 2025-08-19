@@ -29,9 +29,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
 
-      <header className="flex justify-center bg-blue-300">
+      <header className=" bg-blue-300 mt-0">
         <nav>
-          <ul className="flex mt-4 text-xl p-4">
+          <ul className="flex  text-xl p-4">
             <li className="mr-4 font-medium"><a href="./">Home</a></li>
             <li className="mr-4 font-medium"><a href="./sample">Javagram</a></li>
             <li className="mr-4 font-medium"><a href="#">About</a></li>

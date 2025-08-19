@@ -8,6 +8,7 @@ const page = () => {
             I am taking Diploma in Computer Engineering Technology. Aiming to be good at programming. Jack of all trades and master of none.
             I am car enthusiast a fan of JDM cars like Skyline, Supra, Civic, Nissan Zs, Lancer Evo and etc, I know how to play guitar, and I know how to cook.
         </p>
+        
 
     </div>
   )
