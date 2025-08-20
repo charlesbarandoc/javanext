@@ -1,18 +1,21 @@
 'use client';
 
 import { MdDeleteOutline } from "react-icons/md";
-import { useMutation } from "@tanstack/react-query";
+import { MdModeEdit } from "react-icons/md";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGetPosts } from "../hooks/useGetPosts";
 import axios from "axios"; 
 import { useState } from "react";
 import { useDeletePosts } from "../hooks/useDeletePosts";
 import 'flowbite';
 
+
 const addPost = async ({title, body}: {title: string, body: string}) => {
   const response = await axios.post(
     "http://localhost:8000/api/posts", 
     {title, body},
-    {withXSRFToken: true, withCredentials: true}
+    {withXSRFToken: true, withCredentials: true},
+
   )
 
   return response;
@@ -21,10 +24,18 @@ const addPost = async ({title, body}: {title: string, body: string}) => {
 const TestPage = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const queryClient = useQueryClient()
+  const [editingModal, setEditingModal] = useState(false)
 
-  const {data: posts, isLoading, isError, error, isFetching} = useGetPosts();
+  const {data: posts, isLoading, isError, error, isFetching,} = useGetPosts();
 
-  const {mutate: postAdd, isPending} = useMutation({mutationFn: addPost, mutationKey: ['posts']});
+  const {mutate: postAdd, isPending} = useMutation(
+    {mutationFn: addPost, 
+    mutationKey: ['posts'],     
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["posts"]})
+      console.log("success!")
+    }});
 
   const {mutate: postDelete} = useDeletePosts();
 
@@ -59,9 +70,9 @@ const TestPage = () => {
   return(
     <div className="mt-10">
       <div className="flex flex-row justify-center">
-        <h1 className="text-3xl font-bold mr-10">Javagram</h1>
+        <h1 className="text-3xl font-bold mr-10">Nextgram</h1>
         {/* <!-- Modal toggle --> */}
-      <button data-modal-target="default-modal" data-modal-toggle="default-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+      <button className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
         +
       </button>
       </div>
@@ -73,33 +84,59 @@ const TestPage = () => {
           <input type="text" name="body" placeholder="enter body" className="border"  onChange={e => setBody(e.target.value)}/>
           <button type="submit">Submit</button>
         </form>
-
       </div>
+
+      
+        )
+          editingModal &&
+          <div className="bg-white popup">
+            <form className="flex flex-col w-40 m-auto gap-2" onSubmit={handleSubmit}>
+              <button onClick={() => setEditingModal(false)}>X</button>
+              <input  type="text" name="title" placeholder="enter title" className="border" onChange={e => setTitle(e.target.value)} />
+              <input type="text" name="body" placeholder="enter body" className="border"  onChange={e => setBody(e.target.value)}/>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        )
+        
+      
+      
 
       
 
         <div className="flex flex-col-reverse">
             {posts.map(post => {
               return (
-              <div key={post.id} className="rounded-4xl m-auto w-75 flex flex-col 
-                my-2 border-b-gray-700 border-4 p-6 bg-gray-300">
-                <div className="flex flex-row mb-4">
-                  <div className="rounded-full w-20 h-20 bg-gray-600"></div>
-                  <p className="font-bold ml-6 mt-5">chrlsmrn</p>
-                  <button onClick={() => deletePost(post.id.toString())} className="bg-red-600 ml-6 w-10 h-10 text-white flex justify-center items-center text-3xl rounded-2xl mt-4">
-                    <MdDeleteOutline />
-                  </button>
+              <div key={post.id}>
+                  
+
+                  
+
+                  <div className="rounded-4xl m-auto w-100 flex flex-col 
+                  my-2 border-b-gray-700 border-4 p-6 bg-gray-300">
+                  <div className="flex flex-row mb-4">
+                    <div className="rounded-full w-20 h-20 bg-gray-600"></div>
+                    <p className="font-bold ml-6 mt-5">chrlsmrn</p>
+                    <button onClick={() => deletePost(post.id.toString())} className="bg-red-600 ml-20 w-10 h-8 text-white flex justify-center items-center text-2xl rounded-2xl mt-4">
+                      <MdDeleteOutline />
+                    </button>
+                    <button onClick={() => setEditingModal(true)} className="bg-green-600 ml-3 w-10 h-8 text-white flex justify-center items-center text-2xl rounded-2xl mt-4">
+                      <MdModeEdit />
+                    </button>
+                  </div>
+                  <div className="flex flex-box justify-center">
+                    <div className="mt-7 w-90 h-60 bg-gray-600 rounded-2xl mb-4" ></div>
+                  </div>
+                  
+                  <p>{post.body}</p>
+                  <p>{post.title}</p>
+                  <p><span className="font-bold">@paul </span>{post.comment}</p>
                 </div>
-                <div className="flex flex-box justify-center">
-                  <div className="w-60 h-60 bg-gray-600 rounded-2xl mb-4" ></div>
-                </div>
-                
-                <p>{post.body}</p>
-                <p>{post.title}</p>
-                <p><span className="font-bold">@paul </span>{post.comment}</p>
+              
               </div>
             )})}
         </div>
+
     </div>
   )
 }
