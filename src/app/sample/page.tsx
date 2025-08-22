@@ -24,8 +24,9 @@ const addPost = async ({title, body}: {title: string, body: string}) => {
 const TestPage = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const queryClient = useQueryClient()
-  const [editingModal, setEditingModal] = useState(false)
+  const queryClient = useQueryClient();
+  const [editingModal, setEditingModal] = useState(false);
+  const [postModal, setPostModal] = useState(false);
 
   const {data: posts, isLoading, isError, error, isFetching,} = useGetPosts();
 
@@ -48,6 +49,14 @@ const TestPage = () => {
 
   const deletePost = (id: string) => {
     postDelete(id);
+  }
+
+  const editPost = (id: string) => {
+    setEditingModal(true);
+  }
+
+  const addPostModal = () => {
+    setPostModal(true)
   }
   
   if(isLoading){
@@ -72,46 +81,43 @@ const TestPage = () => {
       <div className="flex flex-row justify-center">
         <h1 className="text-3xl font-bold mr-10">Nextgram</h1>
         {/* <!-- Modal toggle --> */}
-      <button className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+      <button onClick={addPostModal} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         +
       </button>
       </div>
 
       {/* <pre>{JSON.stringify(postMessage,null,4)}</pre> */}
-      <div className="">
-        <form className="flex flex-col w-40 m-auto" onSubmit={handleSubmit}>
-          <input type="text" name="title" placeholder="enter title" className="border" onChange={e => setTitle(e.target.value)} />
-          <input type="text" name="body" placeholder="enter body" className="border"  onChange={e => setBody(e.target.value)}/>
-          <button type="submit">Submit</button>
+      
+      {
+        postModal &&
+      <div className="popup-post">
+        <form className="flex flex-col w-60 m-auto bg-white p-5 border rounded-3xl" onSubmit={handleSubmit}>
+          <button className="font-bold text-red-500 text-right mb-2 cursor-pointer" onClick={() => setPostModal(false)}>X</button>
+          <h1 className="text-3xl text-center font-bold mb-4">Add Post</h1>
+          <input type="text" name="title" placeholder="enter title" className="border mb-2" onChange={e => setTitle(e.target.value)} />
+          <input  type="text" name="body" placeholder="enter body" className="border"  onChange={e => setBody(e.target.value)}/>
+          <button className="mt-5 bg-green-500 rounded-2xl" type="submit">Submit</button>
         </form>
       </div>
+        }
 
-      
-        )
-          editingModal &&
-          <div className="bg-white popup">
-            <form className="flex flex-col w-40 m-auto gap-2" onSubmit={handleSubmit}>
-              <button onClick={() => setEditingModal(false)}>X</button>
-              <input  type="text" name="title" placeholder="enter title" className="border" onChange={e => setTitle(e.target.value)} />
-              <input type="text" name="body" placeholder="enter body" className="border"  onChange={e => setBody(e.target.value)}/>
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-        )
-        
-      
-      
-
-      
 
         <div className="flex flex-col-reverse">
             {posts.map(post => {
               return (
               <div key={post.id}>
-                  
-
-                  
-
+                {
+                  editingModal &&
+                  <div className="bg-white popup p-3 rounded-2xl">
+                    <form className="flex flex-col w-40 m-auto gap-2" onSubmit={handleSubmit}>
+                      <button className="font-bold text-red-500 text-right" onClick={() => setEditingModal(false)}>X</button>
+                      <input  type="text" name="title" placeholder="enter title" className="border" value={post.title} onChange={e => setTitle(e.target.value)} />
+                      <input type="text" name="body" placeholder="enter body" className="border" value={post.body}  onChange={e => setBody(e.target.value)}/>
+                      <button type="submit">Submit</button>
+                    </form>
+                  </div>
+                }
+                
                   <div className="rounded-4xl m-auto w-100 flex flex-col 
                   my-2 border-b-gray-700 border-4 p-6 bg-gray-300">
                   <div className="flex flex-row mb-4">
@@ -120,7 +126,7 @@ const TestPage = () => {
                     <button onClick={() => deletePost(post.id.toString())} className="bg-red-600 ml-20 w-10 h-8 text-white flex justify-center items-center text-2xl rounded-2xl mt-4">
                       <MdDeleteOutline />
                     </button>
-                    <button onClick={() => setEditingModal(true)} className="bg-green-600 ml-3 w-10 h-8 text-white flex justify-center items-center text-2xl rounded-2xl mt-4">
+                    <button onClick={() => editPost(post.id)} className="bg-green-600 ml-3 w-10 h-8 text-white flex justify-center items-center text-2xl rounded-2xl mt-4">
                       <MdModeEdit />
                     </button>
                   </div>
