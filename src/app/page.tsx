@@ -2,13 +2,11 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="bg-grey">
-        <h1 className="text-7xl font-bold text-center mt-20">Hello World!</h1>
-        <p className='mx-auto w-200 text-center mt-10 text-xl'>Lorem ipsum dolor sit amet consectetur adipiscing elit. 
-          Quisque faucibus ex sapien vitae pellentesque sem placerat. 
-          In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. 
-          Pulvinar vivamus fringilla lacus nec metus bibendum egestas. 
-          Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+    <div>
+        <h1 className="text-7xl font-medium text-center mt-30">You Matter!</h1>
+        <p className='mx-auto w-200 text-center mt-10 text-2xl '>Don&apos;t you know anyone you can tell your toughts to? MySpace here for you. 
+          Your feelings are valid here in MySpace your safe space for your thoughts, rants, you feel in love, 
+          feeling happy just Shout It Out on the Rant page. Your safe space for your thoughts.
         </p>
         
 

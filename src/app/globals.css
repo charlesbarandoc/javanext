@@ -3,7 +3,7 @@
 @source "../../.flowbite-react/class-list.json";
 
 body {
-    @apply bg-gray-100;
+    @apply bg-white;
 }
 
 .popup {
@@ -21,7 +21,7 @@ body {
     margin: auto;
     position: absolute;
     z-index: 999;
-    top: 55%;
+    top: 43%;
     left: 50%;
     transform: translate(-50%, -50%);
 }

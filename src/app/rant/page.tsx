@@ -4,14 +4,14 @@ import { MdDeleteOutline } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGetPosts } from "../hooks/useGetPosts";
-import axios from "axios"; 
 import { useState } from "react";
 import { useDeletePosts } from "../hooks/useDeletePosts";
 import 'flowbite';
+import { axiosAPI } from "../lib/axios";
 
 
 const addPost = async ({title, body}: {title: string, body: string}) => {
-  const response = await axios.post(
+  const response = await axiosAPI.post(
     "http://localhost:8000/api/posts", 
     {title, body},
     {withXSRFToken: true, withCredentials: true},
@@ -79,9 +79,9 @@ const TestPage = () => {
   return(
     <div className="mt-10">
       <div className="flex flex-row justify-center">
-        <h1 className="text-3xl font-bold mr-10">Nextgram</h1>
+        <h1 className="text-4xl font-bold mr-10">Shout It Out</h1>
         {/* <!-- Modal toggle --> */}
-      <button onClick={addPostModal} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      <button onClick={addPostModal} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-xl px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         +
       </button>
       </div>
@@ -91,18 +91,20 @@ const TestPage = () => {
       {
         postModal &&
       <div className="popup-post">
-        <form className="flex flex-col w-60 m-auto bg-white p-5 border rounded-3xl" onSubmit={handleSubmit}>
-          <button className="font-bold text-red-500 text-right mb-2 cursor-pointer" onClick={() => setPostModal(false)}>X</button>
-          <h1 className="text-3xl text-center font-bold mb-4">Add Post</h1>
-          <input type="text" name="title" placeholder="enter title" className="border mb-2" onChange={e => setTitle(e.target.value)} />
-          <input  type="text" name="body" placeholder="enter body" className="border"  onChange={e => setBody(e.target.value)}/>
-          <button className="mt-5 bg-green-500 rounded-2xl" type="submit">Submit</button>
+        <form className="flex flex-col w-60 m-auto bg-white p-4 border rounded-3xl " onSubmit={handleSubmit}>
+          <div className="flex justify-end">
+            <button className="font-bold text-red-500  mb-2 cursor-pointer w-5" onClick={() => setPostModal(false)}>X</button>
+          </div>
+          <h1 className="text-3xl text-center font-bold mb-4">New Post</h1>
+          <input type="text" name="title" placeholder="Add a caption..." className="border mb-2 p-1 pl-1 rounded-xl" onChange={e => setTitle(e.target.value)} />
+          <input  type="text" name="body" placeholder="Share your toughts..." className="border p-1 pl-1 h-20 rounded-xl "  onChange={e => setBody(e.target.value)}/>
+          <button className="mt-5 h-10 bg-blue-500 rounded-2xl" type="submit">Submit</button>
         </form>
       </div>
         }
 
 
-        <div className="flex flex-col-reverse">
+        <div className="flex flex-col-reverse mt-4">
             {posts.map(post => {
               return (
               <div key={post.id}>
@@ -121,8 +123,8 @@ const TestPage = () => {
                   <div className="rounded-4xl m-auto w-100 flex flex-col 
                   my-2 border-b-gray-700 border-4 p-6 bg-gray-300">
                   <div className="flex flex-row mb-4">
-                    <div className="rounded-full w-20 h-20 bg-gray-600"></div>
-                    <p className="font-bold ml-6 mt-5">chrlsmrn</p>
+                    <div className="rounded-full w-15 h-15 bg-gray-600"></div>
+                    <p className="font-bold ml-6 mt-5">Anonymous</p>
                     <button onClick={() => deletePost(post.id.toString())} className="bg-red-600 ml-20 w-10 h-8 text-white flex justify-center items-center text-2xl rounded-2xl mt-4">
                       <MdDeleteOutline />
                     </button>
@@ -130,13 +132,8 @@ const TestPage = () => {
                       <MdModeEdit />
                     </button>
                   </div>
-                  <div className="flex flex-box justify-center">
-                    <div className="mt-7 w-90 h-60 bg-gray-600 rounded-2xl mb-4" ></div>
-                  </div>
-                  
-                  <p>{post.body}</p>
-                  <p>{post.title}</p>
-                  <p><span className="font-bold">@paul </span>{post.comment}</p>
+                    <p className="font-bold text-2xl">{post.title}</p>
+                    <p className="text-xl">{post.body}</p>
                 </div>
               
               </div>

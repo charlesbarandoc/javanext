@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
+import { axiosAPI } from "../lib/axios"
 
 const fetchPost = async () => {
-    const response = await axios.get("http://localhost:8000/api/posts")
+    const response = await axiosAPI.get("http://localhost:8000/api/posts")
     return response.data
-    
-    
 }
 
 const useGetPosts = () => {

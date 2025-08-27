@@ -31,6 +31,7 @@ const RegisterPage = () => {
     mutationKey: ['users'],     
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ["users"]})
+      
       console.log("success!")
     }});
 
@@ -53,7 +54,7 @@ const RegisterPage = () => {
                 <input className="text-lg border p-2 bg-white text-black rounded-lg mb-5" type="email" placeholder='Enter your email' onChange={e => setEmail(e.target.value)}/>
                 <label className="text-xl" htmlFor="">Password:</label>
                 <input className="text-lg border p-2 bg-white text-black rounded-lg mb-5" type="password" placeholder='Enter your password' onChange={e => setPassword(e.target.value)}/>
-                <label className="text-xl" htmlFor="">Password Confirmaiton:</label>
+                <label className="text-xl" htmlFor="">Password Confirmation:</label>
                 <input className="text-lg border p-2 bg-white text-black rounded-lg mb-5" type="password" placeholder='Re-enter password' onChange={e => setPasswordConfirmation(e.target.value)}/>
                 <button className="-mb-16 bg-blue-300 p-3 rounded-lg hover:bg-blue-400 mt-6" type="submit">Register</button>
                 <a className="flex flex-row justify-center mt-20"><span><a className="text-blue-700 mr-2" href="./login">Sign in</a></span>|<span><a className="text-blue-700 ml-2" href="./forgot-password">Forgot your Password?</a></span></a>               

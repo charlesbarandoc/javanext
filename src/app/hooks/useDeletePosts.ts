@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { axiosAPI } from "../lib/axios";
 
 
 
@@ -8,7 +8,7 @@ export const useDeletePosts = () => {
 const queryClient = useQueryClient()
 
     return useMutation({mutationFn: async(id: string) => {
-        const response = await axios.delete(`http://localhost:8000/api/posts/${id}`);
+        const response = await axiosAPI.delete(`http://localhost:8000/api/posts/${id}`);
         return response.data
     },
     onSuccess: () => {
