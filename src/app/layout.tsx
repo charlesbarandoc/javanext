@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import  TanstackProvider from "./providers/TanstackProvider";
 import { FaUser } from "react-icons/fa";
+import { ToastContainer } from "react-toastify";
 
 
 const geistSans = Geist({
@@ -31,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
 
-      <header className=" sticky z-50 bg-blue-300 p-4 w-100% h-20">
+      <header className="sticky z-50 bg-blue-300 p-4 w-100% h-20 shadow-[0px_2px_0px_0px_rgba(0,_0,_0,_0.1)]">
         <nav className="">
           
           <ul className=" text-2xl font-medium"> 
@@ -40,7 +41,7 @@ export default function RootLayout({
               </div>
               <div className="flex justify-end">
                 <li className="mr-15 -mt-1 hover:text-white"><a href="/">Home</a></li>
-                <li className="mr-15 -mt-1 hover:text-white"><a href="/rant">Rant</a></li>
+                <li className="mr-15 -mt-1 hover:text-white"><a href="/shout">Shout</a></li>
                 <li className="mr-15 -mt-1 hover:text-white"><a href="#">About</a></li>
                 <li className="mr-15 -mt-1 hover:text-white"><a href="#">Contact</a></li>
                 <li className="mr-15 text-2xl "><a href="/auth/login"><FaUser /></a></li>
@@ -48,10 +49,12 @@ export default function RootLayout({
           </ul>
         </nav>
       </header>
-
+      <div>
       <TanstackProvider>
         {children}
+        <ToastContainer/>
       </TanstackProvider>
+      </div>
         
       </body>
     </html>

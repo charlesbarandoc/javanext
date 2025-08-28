@@ -6,8 +6,14 @@ body {
     @apply bg-white;
 }
 
-.popup {
+.side-bar {
+    z-index: 999;
+    position: absolute;
     width: 250px;
+    left: 3%;
+}
+
+.popup {
     margin: auto;
     position: fixed;
     z-index: 999;
@@ -17,11 +23,12 @@ body {
 }
 
 .popup-post {
-    width: 250px;
+    width: 400px;
+    height: 370;
     margin: auto;
     position: absolute;
     z-index: 999;
     top: 43%;
-    left: 50%;
+    left: 56%;
     transform: translate(-50%, -50%);
 }

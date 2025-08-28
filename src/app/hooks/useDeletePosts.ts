@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosAPI } from "../lib/axios";
+import { toast } from "react-toastify";
 
 
 
@@ -13,7 +14,11 @@ const queryClient = useQueryClient()
     },
     onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ["posts"]})
-
-        return useQuery({queryKey:["posts"]})
+        toast('Deleted Success.', {type:"success", position: "top-center", autoClose: 3000 })
+        
+    },
+    onError: () => {
+        toast('Failed to Delete.', {type: "error", position: "top-center", autoClose: 3000})
     }
+    
 })}

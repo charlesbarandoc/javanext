@@ -3,7 +3,7 @@ import React from 'react'
 const page = () => {
   return (
     <div className="flex justify-center content-center w-100% mt-20">
-        <div className="flex flex-col justify-center bg-gray-400 p-20 rounded-2xl w-100 h-auto text-black"> 
+        <div className="flex flex-col justify-center bg-gray-200 p-20 rounded-2xl w-100 h-auto text-black"> 
             <h1 className="text-4xl font-bold text-center -mt-5 mb-10">Forgot Password</h1>
             <label className="text-xl" htmlFor="text">Email:</label>
             <input className="text-lg border p-2 bg-white text-black rounded-lg mb-5" type="text" placeholder='Enter your username'/>
